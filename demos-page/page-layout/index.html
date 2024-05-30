@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Scheduling rules manager</title>
+        <link rel="stylesheet" href="css/styles.css">
+    </head>
+    <body>
+        <section class="rule-app">
+            <header class="header">
+                Scheduling rules manager
+            </header>
+
+            <section class="rule-viewport">
+                <section class="rule-viewport-left">
+                    <label>Rules IO</label>
+                    <button
+                            id="file-load"
+                            class="file-load"
+                            data-rule="file-load"
+                    >
+                        Load JSON
+                    </button>
+                    <button
+                            id="file-save"
+                            class="file-save"
+                            data-rule="file-save"
+                    >
+                        Save JSON
+                    </button>
+                    <label>Rules </label>
+                    <ul id="rule-list" class="rule-list" data-rule="rule-list"></ul>
+                </section>
+                <section class="rule-viewport-right">
+                    <pre id="file-display" class="file-display" data-rule="file-display"></pre>
+                </section>
+            </section>
+
+            <section class="rule-workspace">
+                <section class="rule-workspace-control">
+                    <button>Save</button>
+                    <button>Update</button>
+                    <button>Visualize</button>
+                </section>
+                <section class="rule-workspace-workbench">
+                    <section class="rule-workspace-workbench-target">
+                        <div class="box"></div>
+                    </section>
+                    <section class="rule-workspace-workbench-source">
+                        <div class="box"></div>
+                        <div class="box"></div>
+                        <div class="box"></div>
+                        <div class="box"></div>
+                    </section>
+                </section>
+            </section>
+
+            <footer class="info">
+                Footer
+            </footer>
+
+            <script type="module" src="js/app.js"></script>
+        </section>
+    </body>
+</html>

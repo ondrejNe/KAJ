@@ -1,0 +1,102 @@
+:root {
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+header, footer {
+    background-color: #d2d2d2;
+    padding: var(--spacing-md);
+    text-align: center;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.rule-app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.rule-viewport {
+    display: grid;
+    grid-template-areas:
+                'rule-viewport-left rule-viewport-right';
+    grid-template-columns: 1fr 2fr; /* 1:2 ratio */
+    gap: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    flex-grow: 1;
+    background-color: #f5f5f5;
+}
+
+.rule-viewport-left {
+    grid-area: rule-viewport-left;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: #e2e2e2;
+}
+
+.rule-viewport-right {
+    grid-area: rule-viewport-right;
+    padding: var(--spacing-md);
+    background-color: #d2d2d2;
+}
+
+.rule-workspace {
+    display: grid;
+    grid-template-areas:
+                'rule-workspace-control'
+                'rule-workspace-workbench';
+    gap: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
+}
+
+.rule-workspace-control {
+    grid-area: rule-workspace-control;
+    display: flex;
+    flex-direction: row;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: #e2e2e2;
+}
+
+.rule-workspace-workbench {
+    grid-area: rule-workspace-workbench;
+    display: flex;
+    gap: var(--spacing-md);
+    background-color: #d2d2d2;
+}
+
+.rule-workspace-workbench-target, .rule-workspace-workbench-source {
+    display: flex;
+    padding: var(--spacing-md);
+    background-color: #d2d2d2;
+}
+
+.rule-workspace-workbench-target {
+    flex: 1;
+}
+
+.rule-workspace-workbench-source {
+    flex: 9;
+    background-color: #c2c2c2;
+}
+
+.box {
+    width: 200px;
+    height: 200px;
+    background-color: #b2b2b2;
+    margin: var(--spacing-xs);
+}
