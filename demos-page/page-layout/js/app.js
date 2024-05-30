@@ -10,10 +10,15 @@ const App = {
         fileSaveBtn: document.querySelector('[data-rule="file-save-button"]'),
         fileClearBtn: document.querySelector('[data-rule="file-clear-button"]'),
         fileShowBtn: document.querySelector('[data-rule="file-show-button"]'),
+        graphShowBtn: document.querySelector('[data-rule="graph-show-button"]'),
+        treeShowBtn: document.querySelector('[data-rule="tree-show-button"]'),
         ruleFilter: document.querySelector('[data-rule="rule-filter"]'),
         
         // Presentation
+        fileShow: document.querySelector('[data-rule="file-show"]'),
         fileShowCode: document.querySelector('[data-rule="file-show"] code'),
+        graphShow: document.querySelector('[data-rule="graph-show"]'),
+        treeShow: document.querySelector('[data-rule="tree-show"]'),
         ruleList: document.querySelector('[data-rule="rule-list"]'),
     },
 
@@ -48,6 +53,21 @@ const App = {
             const filter = e.target.value;
             Rules.filter(filter);
             App.render();
+        });
+        App.$.fileShowBtn.addEventListener('click', (e) => {
+            App.$.fileShow.style.display = '';
+            App.$.graphShow.style.display = 'none';
+            App.$.treeShow.style.display = 'none';
+        });
+        App.$.graphShowBtn.addEventListener('click', (e) => {
+            App.$.fileShow.style.display = 'none';
+            App.$.graphShow.style.display = '';
+            App.$.treeShow.style.display = 'none';
+        });
+        App.$.treeShowBtn.addEventListener('click', (e) => {
+            App.$.fileShow.style.display = 'none';
+            App.$.graphShow.style.display = 'none';
+            App.$.treeShow.style.display = '';
         });
     },
 
