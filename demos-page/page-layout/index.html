@@ -9,18 +9,21 @@
     <body>
         <section class="rule-app">
             <header class="header">
-                Scheduling rules manager
+                Scheduling rules manager (v0.1.0)
             </header>
 
             <section class="rule-viewport">
                 <section class="rule-viewport-left">
                     <label>Rules IO</label>
                     <section id="rule-list-buttons" class="rule-list-buttons">
-                        <button id="file-load-button" class="file-load-button" data-rule="file-load-button"> Load JSON </button>
+                        <input type="file" accept=".json" id="file-load-button" class="file-load-button" data-rule="file-load-button">
                         <button id="file-save-button" class="file-save-button" data-rule="file-save-button"> Save JSON </button>
+                        <button id="file-clear-button" class="file-clear-button" data-rule="file-clear-button"> Clear JSON </button>
                         <button id="file-show-button" class="file-show-button" data-rule="file-show-button"> Show JSON </button>
                         <button id="graph-show-button" class="graph-show-button" data-rule="graph-show-button"> Show GRAPH </button>
                         <button id="tree-show-button" class="tree-show-button" data-rule="tree-show-button"> Show TREE </button>
+                        <label for="rule-filter"></label>
+                        <input type="text" id="rule-filter" class="rule-filter" data-rule="rule-filter" placeholder="Filter rules">
                     </section>
                     <label>Rules </label>
                     <section id="rule-list-viewport" class="rule-list-viewport">
@@ -28,7 +31,9 @@
                     </section>
                 </section>
                 <section class="rule-viewport-right">
-                    <pre id="file-show" class="file-show" data-rule="file-show" style="display: none"></pre>
+                    <pre id="file-show" class="file-show" data-rule="file-show"><code class="language-json"></code></pre>
+                    <section id="graph-show" class="graph-show" data-rule="graph-show" style="display: none"></section>
+                    <section id="tree-show" class="tree-show" data-rule="tree-show" style="display: none"></section>
                 </section>
             </section>
 
@@ -55,6 +60,8 @@
                 Footer
             </footer>
 
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-json.min.js"></script>
             <script type="module" src="js/app.js"></script>
         </section>
     </body>

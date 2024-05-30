@@ -1,4 +1,4 @@
-import { loadJSONFile, saveJSONFile } from "../api/file.js";
+import { saveJSONFile } from "../api/file.js";
 import { Rule } from './rule.js';
 
 export const RuleStore = class extends EventTarget {
@@ -10,6 +10,7 @@ export const RuleStore = class extends EventTarget {
         
         // Containers main data store
         this.rules = []
+        this.rulesFiltered = []
         // Load existing rules from localStorage
         this._readStorage();
 
@@ -28,6 +29,7 @@ export const RuleStore = class extends EventTarget {
     _readStorage() {
         const data = JSON.parse(window.localStorage.getItem(this.localStorageKey) || "[]");
         this.rules = Rule.fromArray(data);
+        this.rulesFiltered = this.rules.map(rule => rule.name);
     }
 
     // Private method to save rules to localStorage and dispatch a 'save' event
@@ -36,38 +38,46 @@ export const RuleStore = class extends EventTarget {
         this.dispatchEvent(new CustomEvent("save"));
     }
 
-    // Public method to update rules with JSON data
-    updateWithJSON(json) {
-        // Update rules with the provided JSON data
-        this.rules = Rule.fromArray(json);
-        this._save();
-    }
-
     // Event handler for loading JSON
-    async loadJSONHandler() {
-        try {
-            const json = await loadJSONFile();
-            this.updateWithJSON(json);
-            return json;  // Resolve the promise with the loaded JSON data
-        } catch (error) {
-            console.error(error.message);
-            throw error;  // Reject the promise with the error
-        }
+    loadJSONHandler(file) {
+        return new Promise((resolve, reject) => {
+            try {
+                const json = JSON.parse(file);
+                this.updateWithJSON(json);
+                resolve(json);
+            } catch (error) {
+                reject(new Error("Error parsing JSON: " + error.message));
+            }
+        });
     }
 
     // Event handler for saving JSON
     saveJSONHandler() {
         saveJSONFile(this.rules);
     }
+    
+    clearJSONHandler() {
+        this.rules = [];
+        this.rulesFiltered = [];
+        this._save();
+    }
+
+    updateWithJSON(json) {
+        // Update rules with the provided JSON data
+        this.rules = Rule.fromArray(json);
+        this.rulesFiltered = this.rules.map(rule => rule.name);
+        this._save();
+    }
 
     toJSON() {
         return JSON.stringify(this.rules.map(rule => rule.toJSON()), null, 4);
     }
-
-    // TODO: GETTER methods to access rule items in various ways
-    all() {
-        return this.rules
+    
+    filter(text) {
+        this.rulesFiltered = this.rules.map(rule => rule.name).filter(rule => rule.includes(text));
     }
     
-    // TODO: MUTATE methods to modify the rules list
+    all() {
+        return this.rules.filter(rule => this.rulesFiltered.includes(rule.name));
+    }
 };

@@ -1,3 +1,6 @@
+/* Import the PrismJS theme */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-okaidia.min.css');
+
 :root {
     --spacing-xs: 4px;
     --spacing-sm: 8px;
@@ -52,7 +55,8 @@ body {
     grid-template-areas:
         'file-load-button file-show-button'
         'file-save-button graph-show-button'
-        'empty            tree-show-button';
+        'file-clear-button tree-show-button'
+        'rule-filter rule-filter';
     gap: var(--spacing-xs);
     padding: var(--spacing-xs);
 }
@@ -63,6 +67,10 @@ body {
 
 .file-save-button {
     grid-area: file-save-button;
+}
+
+.file-clear-button {
+    grid-area: file-clear-button;
 }
 
 .file-show-button {
@@ -77,16 +85,20 @@ body {
     grid-area: tree-show-button;
 }
 
+.rule-filter {
+    grid-area: rule-filter;
+}
+
 .rule-list-viewport {
     background-color: #f5f5f5;
     overflow-x: auto;
     overflow-y: auto;
-    max-width: 25vw;
-    max-height: 40vh;
+    width: 25vw;
+    height: 40vh;
 }
 
 .rule-list {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
     margin: 0;
     white-space: nowrap;
@@ -94,12 +106,32 @@ body {
 
 .rule-list li {
     margin-left: 10px;
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflow content */
+    text-overflow: ellipsis; /* Add ellipsis to indicate overflow */
+    padding: 10px; /* Optional: Add padding for better spacing */
 }
 
 .rule-viewport-right {
     grid-area: rule-viewport-right;
-    padding: var(--spacing-md);
+    padding: var(--spacing-lg);
     background-color: #d2d2d2;
+}
+
+.rule-viewport-right .file-show {
+    height: 55vh;
+    max-width: 70vw;
+    background-color: #282c34;
+    color: #abb2bf;
+    border-radius: 5px;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+.file-show code {
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 10pt;
+    line-height: 1.5;
 }
 
 .rule-workspace {
@@ -145,7 +177,7 @@ body {
 
 .box {
     width: 200px;
-    height: 200px;
+    height: 160px;
     background-color: #b2b2b2;
     margin: var(--spacing-xs);
 }
