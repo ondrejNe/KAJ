@@ -10,7 +10,7 @@ export const RuleStore = class extends EventTarget {
         
         // Containers main data store
         this.rules = []
-        this.rulesFiltered = []
+        this.rulesFilters = []
         // Load existing rules from localStorage
         this._readStorage();
 
@@ -29,13 +29,21 @@ export const RuleStore = class extends EventTarget {
     _readStorage() {
         const data = JSON.parse(window.localStorage.getItem(this.localStorageKey) || "[]");
         this.rules = Rule.fromArray(data);
-        this.rulesFiltered = this.rules.map(rule => rule.name);
+        this.rulesFilters = this.rules.map(rule => rule.name);
     }
 
     // Private method to save rules to localStorage and dispatch a 'save' event
     _save() {
         window.localStorage.setItem(this.localStorageKey, JSON.stringify(this.rules.map(rule => rule.toJSON())));
         this.dispatchEvent(new CustomEvent("save"));
+    }
+    
+    _filteredRules() {
+        return this.rules.filter(rule => this.rulesFilters.includes(rule.name))
+    }
+    
+    _JSONRules() {
+        return this._filteredRules().map(rule => rule.toJSON())
     }
 
     // Event handler for loading JSON
@@ -53,31 +61,31 @@ export const RuleStore = class extends EventTarget {
 
     // Event handler for saving JSON
     saveJSONHandler() {
-        saveJSONFile(this.rules);
+        saveJSONFile(this._filteredRules());
     }
     
     clearJSONHandler() {
         this.rules = [];
-        this.rulesFiltered = [];
+        this.rulesFilters = [];
         this._save();
     }
 
     updateWithJSON(json) {
         // Update rules with the provided JSON data
         this.rules = Rule.fromArray(json);
-        this.rulesFiltered = this.rules.map(rule => rule.name);
+        this.rulesFilters = this.rules.map(rule => rule.name);
         this._save();
     }
 
     toJSON() {
-        return JSON.stringify(this.rules.map(rule => rule.toJSON()), null, 4);
+        return JSON.stringify(this._JSONRules(), null, 4);
     }
     
     filter(text) {
-        this.rulesFiltered = this.rules.map(rule => rule.name).filter(rule => rule.includes(text));
+        this.rulesFilters = this.rules.map(rule => rule.name).filter(rule => rule.includes(text));
     }
     
     all() {
-        return this.rules.filter(rule => this.rulesFiltered.includes(rule.name));
+        return this._filteredRules();
     }
 };
