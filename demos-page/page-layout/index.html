@@ -15,25 +15,20 @@
             <section class="rule-viewport">
                 <section class="rule-viewport-left">
                     <label>Rules IO</label>
-                    <button
-                            id="file-load"
-                            class="file-load"
-                            data-rule="file-load"
-                    >
-                        Load JSON
-                    </button>
-                    <button
-                            id="file-save"
-                            class="file-save"
-                            data-rule="file-save"
-                    >
-                        Save JSON
-                    </button>
+                    <section id="rule-list-buttons" class="rule-list-buttons">
+                        <button id="file-load-button" class="file-load-button" data-rule="file-load-button"> Load JSON </button>
+                        <button id="file-save-button" class="file-save-button" data-rule="file-save-button"> Save JSON </button>
+                        <button id="file-show-button" class="file-show-button" data-rule="file-show-button"> Show JSON </button>
+                        <button id="graph-show-button" class="graph-show-button" data-rule="graph-show-button"> Show GRAPH </button>
+                        <button id="tree-show-button" class="tree-show-button" data-rule="tree-show-button"> Show TREE </button>
+                    </section>
                     <label>Rules </label>
-                    <ul id="rule-list" class="rule-list" data-rule="rule-list"></ul>
+                    <section id="rule-list-viewport" class="rule-list-viewport">
+                        <ul id="rule-list" class="rule-list" data-rule="rule-list"></ul>
+                    </section>
                 </section>
                 <section class="rule-viewport-right">
-                    <pre id="file-display" class="file-display" data-rule="file-display"></pre>
+                    <pre id="file-show" class="file-show" data-rule="file-show" style="display: none"></pre>
                 </section>
             </section>
 

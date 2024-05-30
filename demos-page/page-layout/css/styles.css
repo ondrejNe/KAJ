@@ -30,8 +30,8 @@ body {
 .rule-viewport {
     display: grid;
     grid-template-areas:
-                'rule-viewport-left rule-viewport-right';
-    grid-template-columns: 1fr 2fr; /* 1:2 ratio */
+        'rule-viewport-left rule-viewport-right';
+    grid-template-columns: 1fr 3fr;
     gap: var(--spacing-md);
     padding-top: var(--spacing-md);
     flex-grow: 1;
@@ -47,6 +47,55 @@ body {
     background-color: #e2e2e2;
 }
 
+.rule-list-buttons {
+    display: grid;
+    grid-template-areas:
+        'file-load-button file-show-button'
+        'file-save-button graph-show-button'
+        'empty            tree-show-button';
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs);
+}
+
+.file-load-button {
+    grid-area: file-load-button;
+}
+
+.file-save-button {
+    grid-area: file-save-button;
+}
+
+.file-show-button {
+    grid-area: file-show-button;
+}
+
+.graph-show-button {
+    grid-area: graph-show-button;
+}
+
+.tree-show-button {
+    grid-area: tree-show-button;
+}
+
+.rule-list-viewport {
+    background-color: #f5f5f5;
+    overflow-x: auto;
+    overflow-y: auto;
+    max-width: 25vw;
+    max-height: 40vh;
+}
+
+.rule-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.rule-list li {
+    margin-left: 10px;
+}
+
 .rule-viewport-right {
     grid-area: rule-viewport-right;
     padding: var(--spacing-md);
@@ -56,8 +105,8 @@ body {
 .rule-workspace {
     display: grid;
     grid-template-areas:
-                'rule-workspace-control'
-                'rule-workspace-workbench';
+        'rule-workspace-control'
+        'rule-workspace-workbench';
     gap: var(--spacing-md);
     padding-top: var(--spacing-md);
     padding-bottom: var(--spacing-md);

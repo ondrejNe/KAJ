@@ -6,10 +6,13 @@ const Rules = new RuleStore("rule-store");
 const App = {
     // A collection of DOM element references and utility methods for manipulating the UI.
     $: {
-        fileLoad: document.querySelector('[data-rule="file-load"]'),
-        fileSave: document.querySelector('[data-rule="file-save"]'),
-        fileDisplay: document.querySelector('[data-rule="file-display"]'),
+        // Controls
+        fileLoadBtn: document.querySelector('[data-rule="file-load-button"]'),
+        fileSaveBtn: document.querySelector('[data-rule="file-save-button"]'),
+        fileShowBtn: document.querySelector('[data-rule="file-show-button"]'),
         
+        // Presentation
+        fileShow: document.querySelector('[data-rule="file-show"]'),
         ruleList: document.querySelector('[data-rule="rule-list"]'),
     },
 
@@ -26,15 +29,15 @@ const App = {
 
     // Method to bind event listeners
     bindEventListeners() {
-        App.$.fileLoad.addEventListener('click', async () => {
+        App.$.fileLoadBtn.addEventListener('click', async () => {
             try {
                 await Rules.loadJSONHandler();
                 App.render();
             } catch (error) {
-                App.$.fileDisplay.textContent = error.message;
+                App.$.fileShow.textContent = error.message;
             }
         });
-        App.$.fileSave.addEventListener('click', Rules.saveJSONHandler.bind(Rules));
+        App.$.fileSaveBtn.addEventListener('click', Rules.saveJSONHandler.bind(Rules));
     },
     
     createRuleItem(rule) {
@@ -54,7 +57,7 @@ const App = {
 
     // The main rendering method for updating the UI based on the current state
     render() {
-        App.$.fileDisplay.textContent = Rules.toJSON();
+        App.$.fileShow.textContent = Rules.toJSON();
         App.$.ruleList.replaceChildren(...Rules.all().map((rule) => App.createRuleItem(rule)));
     },
 };
