@@ -1,5 +1,5 @@
 /* Import the PrismJS theme */
-@import url('https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-okaidia.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-solarizedlight.min.css');
 
 :root {
     --spacing-xs: 4px;
@@ -112,26 +112,38 @@ body {
     padding: 10px; /* Optional: Add padding for better spacing */
 }
 
-.rule-viewport-right {
-    grid-area: rule-viewport-right;
-    padding: var(--spacing-lg);
+.rule-viewport-right pre {
+    padding: 0;
+    margin: 0;
     background-color: #d2d2d2;
-}
-
-.rule-viewport-right .file-show {
-    height: 55vh;
-    max-width: 70vw;
-    background-color: #282c34;
     color: #abb2bf;
-    border-radius: 5px;
-    overflow-x: auto;
-    overflow-y: auto;
-}
-
-.file-show code {
     font-family: 'Monaco', 'Menlo', monospace;
     font-size: 10pt;
-    line-height: 1.5;
+    line-height: 1.4;
+}
+
+.rule-viewport-right {
+    margin: 0;
+    padding: var(--spacing-sm);
+    grid-area: rule-viewport-right;
+    background-color: #d2d2d2;
+    color: #abb2bf;
+    border-radius: 5px;
+    height: 60vh;
+    width: 70vw;
+
+    /* Make scrollbar transparent for Chrome, Safari and Opera */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0);  /* Transparent thumb */
+    }
+
+    /* Transparent scrollbar for Firefox */
+    scrollbar-color: rgba(0, 0, 0, 0) transparent;  /* Transparent thumb and track */
+    scrollbar-width: thin;
 }
 
 .rule-workspace {
