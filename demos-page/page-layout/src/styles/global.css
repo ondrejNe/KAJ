@@ -82,6 +82,7 @@ body {
     gap: var(--spacing-md);
     padding: var(--spacing-md);
     background-color: #f0f0f0;
+    height: 85vh;
     border-radius: 5px;
     border-style: solid;
     border-width: 3px;
@@ -182,8 +183,9 @@ body {
 }
 
 /* Styles for JSON syntax highlighting */
-.key {
-    color: #28283b; /* Brackets and keys */
+.operator,
+.property {
+    color: #645f8c; /* Brackets and keys */
 }
 
 .string {
@@ -194,15 +196,12 @@ body {
     color: #28aa82; /* Numbers */
 }
 
-.boolean {
-    color: #645f8c /* Booleans */
-}
-
+.boolean,
 .null {
-    color: #645f8c; /* Null */
+    color: #d22846 /* Booleans */
 }
 
-.bracket {
+.punctuation {
     color: #28283b; /* Brackets */
 }
 
@@ -221,8 +220,8 @@ body {
     padding: var(--spacing-sm);
     grid-area: rule-viewport-right;
     background-color: #f0f0f0;
-    width: 70vw;
-    height: 80vh;
+    min-width: 70vw;
+    height: 85vh;
     border-radius: 5px;
     border-style: solid;
     border-width: 3px;

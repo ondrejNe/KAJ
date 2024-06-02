@@ -1,36 +1,25 @@
 export const syntaxHighlight = (json) => {
-    // Escape special HTML characters
-    json = json.replace(/([&<>"'`])/g, function (match) {
-        return {
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            "'": '&#39;',
-            '`': '&#96;'
-        }[match];
-    });
-
     // Regex to match JSON components: strings, numbers, booleans, nulls
     json = json.replace(/("(\\u[\da-fA-F]{4}|\\[^u]|[^\\"])*"(:\s*)?|true|false|null|-?\d+(\.\d+)?([eE][+\-]?\d+)?)/g, function (match) {
-        let cls = 'number';
+        let cls = 'token number';
+        console.log(match);
         if (/^"/.test(match)) {
-            if (/:$/.test(match)) {
-                cls = 'key';
+            if (/.*:/.test(match)) {
+                cls = 'token property';
             } else {
-                cls = 'string';
+                cls = 'token string';
             }
         } else if (/true|false/.test(match)) {
             cls = 'boolean';
         } else if (/null/.test(match)) {
-            cls = 'null';
+            cls = 'token null';
         }
         return '<span class="' + cls + '">' + match + '</span>';
     });
 
     // Regex to match brackets
-    json = json.replace(/[{}\[\]]/g, function (match) {
-        return '<span class="bracket">' + match + '</span>';
+    json = json.replace(/[{}\[\],:]/g, function (match) {
+        return '<span class="token punctuation">' + match + '</span>';
     });
 
     return json;
