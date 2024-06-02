@@ -1,3 +1,4 @@
+
 export const getURLHash = () => document.location.hash.replace(/^#\//, "");
 
 export const delegate = (el, selector, event, handler) => {

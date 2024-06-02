@@ -1,21 +1,21 @@
+import { cssElementWidth, cssElementHeight } from "../util/css.js";
 
-import {cssElementWidth, cssElementHeight } from "../util/css.js";
-
-export const drawGraph = (element, nodes, links) => {
+export const d3GraphDraw = (element, nodes, links) => {
+    // Remove any existing elements in the container
     d3.select(element).selectAll("*").remove();
 
     // Set the dimensions and margins of the graph
-    const margin = {top: 40, right: 40, bottom: 40, left: 40},
+    const margin = { top: 40, right: 40, bottom: 40, left: 40 },
         width = cssElementWidth(element.parentElement) - margin.left - margin.right,
         height = cssElementHeight(element.parentElement) - margin.top - margin.bottom;
 
-    // Append the svg object to the body of the page
+    // Append an SVG element to the container
     const svg = d3.select(element)
         .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .call(d3.zoom().on("zoom", function (event) {
-            svg.attr("transform", event.transform);
+            svg.attr("transform", event.transform); // Enable zooming and panning
         }))
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -31,7 +31,7 @@ export const drawGraph = (element, nodes, links) => {
         .attr("markerHeight", 6)
         .attr("xoverflow", "visible")
         .append("svg:path")
-        .attr("d", "M 0,-5 L 10 ,0 L 0,5")
+        .attr("d", "M 0,-5 L 10 ,0 L 0,5") // Define the arrow shape
         .attr("fill", "#999")
         .style("stroke", "none");
 
@@ -42,10 +42,10 @@ export const drawGraph = (element, nodes, links) => {
         .enter()
         .append("line")
         .attr("class", "link")
-        .attr("stroke", "#999")
-        .attr("stroke-width", 2)
-        .attr("marker-end", "url(#arrowhead)");
-    console.log("Links added");
+        .attr("stroke", "#28283b")
+        .attr('stroke-opacity', 1.0)
+        .attr('stroke-width', 2.0)
+        .attr("marker-end", "url(#arrowhead)"); // Add arrow markers to the links
 
     // Initialize the nodes
     const node = svg
@@ -54,52 +54,54 @@ export const drawGraph = (element, nodes, links) => {
         .enter()
         .append("circle")
         .attr("r", 10)
-        .style("fill", "#69b3a2")
+        .style("fill", "#28aa82")
         .call(d3.drag()
             .on("start", dragstarted)
             .on("drag", dragged)
             .on("end", dragended));
-    console.log("Nodes added");
 
+    // Add text labels to the nodes
     const text = svg
         .selectAll("text")
         .data(nodes)
         .enter()
         .append("text")
         .attr("dy", -10)
+        .attr("text-anchor", "middle")
+        .attr("fill", "#28283b")
+        .attr('style', 'font-size: 12px; font-family: sans-serif;')
         .text(d => d.name);
-    console.log("Text added");
 
-    // Let's list the force we want to apply on the network
-    const simulation = d3.forceSimulation(nodes)                 // Force algorithm is applied to data.nodes
-        .force("link", d3.forceLink(links)               // This force provides links between nodes
-            .id(function (d) {
-                return d.id;
-            })                  // This provides the id of a node
+    // Define the force simulation
+    const simulation = d3.forceSimulation(nodes)
+        .force("link", d3.forceLink(links) // Link force to create links between nodes
+            .id(d => d.id) // Use the node's id as the identifier
+            .distance(500) // Set distance between nodes
         )
-        .force("charge", d3.forceManyBody().strength(-100))           // This adds repulsion between nodes. Play with the -400 for the repulsion strength
-        .force("center", d3.forceCenter(width / 2, height / 2)) // This force attracts nodes to the center of the svg area
-        .on("tick", ticked);
+        .force("charge", d3.forceManyBody().strength(-300)) // Repulsion force between nodes
+        .force("center", d3.forceCenter(width / 2, height / 2)) // Centering force
+        .on("tick", ticked); // Update positions on each tick
 
-    // This function is run at each iteration of the force algorithm, updating the nodes position.
+    // Update positions of nodes and links on each tick
     function ticked() {
         link
-            .attr("x1", function(d) { return d.source.x; })
-            .attr("y1", function(d) { return d.source.y; })
-            .attr("x2", function(d) { return d.target.x; })
-            .attr("y2", function(d) { return d.target.y; });
+            .attr("x1", d => d.source.x)
+            .attr("y1", d => d.source.y)
+            .attr("x2", d => d.target.x)
+            .attr("y2", d => d.target.y);
 
         node
-            .attr("cx", function (d) { return d.x; })
-            .attr("cy", function(d) { return d.y; });
+            .attr("cx", d => d.x)
+            .attr("cy", d => d.y);
 
         text
-            .attr("x", function (d) { return d.x; })
-            .attr("y", function(d) { return d.y; });
+            .attr("x", d => d.x)
+            .attr("y", d => d.y);
     }
 
+    // Functions to handle drag events
     function dragstarted(event, d) {
-        if (!event.active) simulation.alphaTarget(0.3).restart();
+        if (!event.active) simulation.alphaTarget(0.3).restart(); // Activate simulation
         d.fx = d.x;
         d.fy = d.y;
     }
@@ -110,10 +112,8 @@ export const drawGraph = (element, nodes, links) => {
     }
 
     function dragended(event, d) {
-        if (!event.active) simulation.alphaTarget(0);
+        if (!event.active) simulation.alphaTarget(0); // Deactivate simulation
         d.fx = null;
         d.fy = null;
     }
-
-    console.log("Draw finished");
 };

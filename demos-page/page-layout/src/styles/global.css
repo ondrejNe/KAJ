@@ -14,7 +14,8 @@
 }
 
 header, footer {
-    background-color: #d2d2d2;
+    background-color: #28283B;
+    color: white;
     padding: var(--spacing-md);
     text-align: center;
 }
@@ -38,7 +39,7 @@ body {
     gap: var(--spacing-md);
     padding-top: var(--spacing-md);
     flex-grow: 1;
-    background-color: #f5f5f5;
+    background-color: #be8c00;
 }
 
 .rule-viewport-left {
@@ -110,6 +111,13 @@ body {
     overflow: hidden; /* Hide overflow content */
     text-overflow: ellipsis; /* Add ellipsis to indicate overflow */
     padding: 10px; /* Optional: Add padding for better spacing */
+    transition: background 0.3s ease; /* Add transition for smooth background change */
+    font-size: 12px;
+    font-family: sans-serif;
+}
+
+.rule-list li:hover {
+    background: linear-gradient(to left, #d22846, rgba(210, 40, 70, 0.1)); /* Gradient from strong to light */
 }
 
 .rule-viewport-right pre {
@@ -126,7 +134,7 @@ body {
     margin: 0;
     padding: var(--spacing-sm);
     grid-area: rule-viewport-right;
-    background-color: #d2d2d2;
+    background-color: #f0f0f0;
     color: #abb2bf;
     border-radius: 5px;
     height: 60vh;

@@ -1,8 +1,8 @@
-import { RuleStore } from "./model/store.js";
-import { drawGraph } from "./api/graph.js";
-import { drawTree } from "./api/tree.js";
+import {ModelController} from "./model/ModelController.js";
+import {d3GraphDraw} from "./api/d3Graph.js";
+import {d3TreeDraw} from "./api/d3Tree.js";
 
-const Rules = new RuleStore("rule-store");
+const DataModel = new ModelController();
 
 const App = {
     // A collection of DOM element references and utility methods for manipulating the UI.
@@ -20,12 +20,15 @@ const App = {
         fileShow: document.querySelector('[data-rule="file-show"]'),
         graphShow: document.querySelector('[data-rule="graph-show"]'),
         treeShow: document.querySelector('[data-rule="tree-show"]'),
+        
+        // Rule list
+        ruleListCounter: document.querySelector('[data-rule="rule-list-counter"]'),
         ruleList: document.querySelector('[data-rule="rule-list"]'),
     },
 
     // The initialization method for setting up event listeners and initial rendering.
     init() {
-        Rules.addEventListener("save", App.render);
+        DataModel.srStorage.addEventListener("save", App.render);
 
         // Attach event listeners for file load and save
         App.bindEventListeners();
@@ -36,24 +39,22 @@ const App = {
 
     // Method to bind event listeners
     bindEventListeners() {
-        App.$.fileLoadBtn.addEventListener('change', async (event) => {
-            const file = event.target.files[0];
-            if (file) {
-                try {
-                    const text = await file.text();
-                    await Rules.loadJSONHandler(text);
-                    App.render();
-                } catch (error) {
-                    App.$.fileShow.textContent = error.message;
-                }
-            }
+        App.$.fileLoadBtn.addEventListener('change', (e) =>
+            DataModel.srLoadJSONFile(e, App.render)
+        );
+        App.$.fileSaveBtn.addEventListener('click', (e) =>
+            DataModel.srSaveJSONFile(App.render)
+        );
+        App.$.fileClearBtn.addEventListener('click', (e) =>
+            DataModel.srClear(App.render)
+        );
+        App.$.ruleFilter.addEventListener('input', (e) => {
+            DataModel.srSetNodesFiltersFrom(e.target.value);
         });
-        App.$.fileSaveBtn.addEventListener('click', Rules.saveJSONHandler.bind(Rules));
-        App.$.fileClearBtn.addEventListener('click', Rules.clearJSONHandler.bind(Rules));
-        App.$.ruleFilter.addEventListener('input', function(e) {
-            const filter = e.target.value;
-            Rules.filter(filter);
-            App.render();
+        App.$.ruleFilter.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                App.render();
+            }
         });
         App.$.fileShowBtn.addEventListener('click', (e) => {
             App.$.fileShow.style.display = '';
@@ -79,65 +80,30 @@ const App = {
     render() {
         if (App.$.fileShow.style.display !== 'none') {
             App.$.fileShow.parentElement.parentElement.style.overflowY = "scroll";
-            App.$.fileShow.textContent = Rules.toJSON();
+            App.$.fileShow.textContent = DataModel.srGetJSON();
             Prism.highlightElement(App.$.fileShow);
         }
         if (App.$.graphShow.style.display !== 'none') {
             App.$.graphShow.parentElement.style.overflow = "unset";
-            // TODO: dummy data
-            const nodes = [];
-            nodes.push({
-                id: "A node",
-                name: "A node",
-            });
-            nodes.push({
-                id: "B node",
-                name: "B node",
-            });
-            nodes.push({
-                id: "C node",
-                name: "C node",
-            });
-            nodes.push({
-                id: "D node",
-                name: "D node",
-            });
-            const links = [];
-            links.push({
-                source: "A node",
-                target: "B node"
-            });
-            links.push({
-                source: "D node",
-                target: "C node"
-            });
-            drawGraph(App.$.graphShow, nodes, links);
+            const graph = DataModel.srGetGraph();
+            d3GraphDraw(App.$.graphShow, graph.nodes, graph.links);
         }
         if (App.$.treeShow.style.display !== 'none') {
             App.$.treeShow.parentElement.style.overflow = "unset";
-            // TODO: dummy data
-            const data = {
-                "name": "Root",
-                "children": [
-                    {
-                        "name": "Child 1",
-                        "children": [
-                            { "name": "Child 1.1" },
-                            { "name": "Child 1.2" }
-                        ]
-                    },
-                    { "name": "Child 2" }
-                ]
-            };
-            drawTree(App.$.treeShow, data);
+            d3TreeDraw(App.$.treeShow, DataModel.srGetTree());
         }
 
-        App.$.ruleList.replaceChildren(...Rules.all().map((rule) => App.createRuleItem(rule)));
+        App.$.ruleListCounter.textContent = 
+            "Nodes (" + DataModel.srGetNodesCount() + ") " +
+            "Rules (" + DataModel.srGetRulesCount() + ")";
+        App.$.ruleList.replaceChildren(...DataModel.srGetSortedNodes().map((node) =>
+            App.createListItem(node))
+        );
     },
 
-    createRuleItem(rule) {
+    createListItem(node) {
         const li = document.createElement("li");
-        li.textContent = rule.name;
+        li.textContent = node.calculationName;
         return li;
     },
 };

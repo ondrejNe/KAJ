@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Scheduling rules manager</title>
+        <link rel="stylesheet" href="../src/styles/global.css">
+    </head>
+    <body>
+        <div class="rule-app">
+            <header class="header">Scheduling rules manager (v0.1.0)</header>
+
+            <div class="rule-viewport">
+                <div class="rule-viewport-right">
+                    <pre><code id="file-show" class="file-show language-json" data-rule="file-show"></code></pre>
+                    <div id="graph-show" class="graph-show" data-rule="graph-show" style="display: none"></div>
+                    <div id="tree-show" class="tree-show" data-rule="tree-show" style="display: none"></div>
+                </div>
+
+                <div class="rule-viewport-left">
+                    <h2>Control section</h2>
+                    <section id="rule-list-buttons" class="rule-list-buttons">
+                        <input type="file" accept=".json" id="file-load-button" class="file-load-button" data-rule="file-load-button">
+                        <button id="file-save-button" class="file-save-button" data-rule="file-save-button"> Save JSON </button>
+                        <button id="file-clear-button" class="file-clear-button" data-rule="file-clear-button"> Clear JSON </button>
+                        <button id="file-show-button" class="file-show-button" data-rule="file-show-button"> Show JSON </button>
+                        <button id="graph-show-button" class="graph-show-button" data-rule="graph-show-button"> Show GRAPH </button>
+                        <button id="tree-show-button" class="tree-show-button" data-rule="tree-show-button"> Show TREE </button>
+                        <label for="rule-filter"></label>
+                        <input type="text" id="rule-filter" class="rule-filter" data-rule="rule-filter" placeholder="Filter rules" autofocus>
+                    </section>
+
+                    <label id="rule-list-counter" class="rule-list-counter" data-rule="rule-list-counter">Nodes (0) Rules (0)</label>
+                    <div id="rule-list-viewport" class="rule-list-viewport">
+                        <ul id="rule-list" class="rule-list" data-rule="rule-list"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="info">
+                Footer
+            </footer>
+
+            <script src="https://d3js.org/d3.v6.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-json.min.js"></script>
+            <script type="module" src="../src/App.js"></script>
+        </div>
+    </body>
+</html>
