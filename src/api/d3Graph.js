@@ -8,11 +8,23 @@ export const d3GraphDraw = (element, nodes, links) => {
     const width = common.width;
     const height = common.height;
 
+    // Calculate the number of incoming links for each node
+    const nodeLinkCounts = new Map();
+    links.forEach(link => {
+        if (!nodeLinkCounts.get(link.target)) {
+            nodeLinkCounts.set(link.target, 0);
+        }
+        nodeLinkCounts.set(link.target, nodeLinkCounts.get(link.target) + 1);
+    });
+
+    // Determine the maximum radius for the circles
+    const maxRadius = 10 + Math.max(...Array.from(nodeLinkCounts.values())) * 4;
+
     // Define arrow markers for links
     svg.append("defs").append("marker")
         .attr("id", "arrowhead")
         .attr("viewBox", "-0 -5 10 10")
-        .attr("refX", 13)
+        .attr("refX", maxRadius + 3) // Adjust refX based on maxRadius
         .attr("refY", 0)
         .attr("orient", "auto")
         .attr("markerWidth", 6)
@@ -22,15 +34,6 @@ export const d3GraphDraw = (element, nodes, links) => {
         .attr("d", "M 0,-5 L 10 ,0 L 0,5") // Define the arrow shape
         .attr("fill", "#28283b")
         .style("stroke", "none");
-
-    // Calculate the number of incoming links for each node
-    const nodeLinkCounts = new Map();
-    links.forEach(link => {
-        if (!nodeLinkCounts.get(link.target)) {
-            nodeLinkCounts.set(link.target, 0);
-        }
-        nodeLinkCounts.set(link.target, nodeLinkCounts.get(link.target) + 1);
-    });
 
     // Initialize the links
     const link = svg
