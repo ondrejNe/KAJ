@@ -16,7 +16,7 @@ const App = {
         treeShow: document.querySelector('[data-rule="tree-show"]'),
 
         // Control (left side)
-        // file io
+        // file IO
         fileLoadBtn: document.querySelector('[data-rule="file-load-button"]'),
         fileSaveBtn: document.querySelector('[data-rule="file-save-button"]'),
         fileClearBtn: document.querySelector('[data-rule="file-clear-button"]'),
@@ -24,9 +24,10 @@ const App = {
         fileShowBtn: document.querySelector('[data-rule="file-show-button"]'),
         graphShowBtn: document.querySelector('[data-rule="graph-show-button"]'),
         treeShowBtn: document.querySelector('[data-rule="tree-show-button"]'),
-        // state filter
-        dateFilter: document.querySelector('[data-rule="date-filter"]'),
+        // state filters
         nodeFilter: document.querySelector('[data-rule="node-filter"]'),
+        dateFilter: document.querySelector('[data-rule="date-filter"]'),
+        dateFilterMouseDown: false,
 
         // Node list (left side)
         nodeListCounter: document.querySelector('[data-rule="node-list-counter"]'),
@@ -67,7 +68,17 @@ const App = {
         App.$.nodeFilter.addEventListener('input', (e) => {
             DataModel.srSetNodesFiltersFrom(e.target.value);
         });
-
+        App.$.dateFilter.addEventListener('click', (e) => {
+            if (App.$.dateFilterMouseDown) {
+                if (document.activeElement === App.$.dateFilter) {
+                    App.$.dateFilter.blur();
+                } else {
+                    App.$.dateFilter.focus();
+                }
+            }
+            App.$.dateFilterMouseDown = !App.$.dateFilterMouseDown;
+        });
+        
         // Event listeners for the changes on the control UI
         App.$.fileShowBtn.addEventListener('click', (e) => {
             App.$.fileShow.style.display = '';

@@ -27,28 +27,30 @@
 
                 <div class="rule-viewport-left">
                     <!-- Control description -->
-                    <section id="control-labels" class="control-labels">
+                    <div id="control-labels" class="control-labels">
                         <label id="file-control-label" class="file-control-label">File Control</label>
                         <label id="show-control-label" class="show-control-label">Show Control</label>
-                    </section>
+                    </div>
 
                     <!-- Control handling -->
-                    <section id="rule-list-buttons" class="rule-list-buttons">
+                    <div id="rule-list-buttons" class="rule-list-buttons">
                         <!-- IO state control -->
                         <input type="file" accept=".json" id="file-load-button" class="file-load-button" data-rule="file-load-button" style="display: none">
-                        <label for="file-load-button" class="styled-button"> Load JSON </label>
-                        <button id="file-save-button" class="file-save-button styled-button" data-rule="file-save-button"> Save JSON </button>
-                        <button id="file-clear-button" class="file-clear-button styled-button" data-rule="file-clear-button"> Clear JSON </button>
+                        <label for="file-load-button" class="file-load-button theme-style styled-button"> Load JSON </label>
+                        <button id="file-save-button" class="file-save-button theme-style styled-button" data-rule="file-save-button"> Save JSON </button>
+                        <button id="file-clear-button" class="file-clear-button theme-style styled-button" data-rule="file-clear-button"> Clear JSON </button>
                         <!-- Visualization UI control -->
-                        <button id="file-show-button" class="file-show-button styled-button" data-rule="file-show-button"> Show JSON </button>
-                        <button id="graph-show-button" class="graph-show-button styled-button" data-rule="graph-show-button"> Show GRAPH </button>
-                        <button id="tree-show-button" class="tree-show-button styled-button" data-rule="tree-show-button"> Show TREE </button>
+                        <button id="file-show-button" class="file-show-button theme-style styled-button" data-rule="file-show-button"> Show JSON </button>
+                        <button id="graph-show-button" class="graph-show-button theme-style styled-button" data-rule="graph-show-button"> Show GRAPH </button>
+                        <button id="tree-show-button" class="tree-show-button theme-style styled-button" data-rule="tree-show-button"> Show TREE </button>
                         <!-- Model state filter control -->
-                        <label for="date-filter"></label>
-                        <input type="date" id="date-filter" class="date-filter" data-rule="date-filter">
                         <label for="node-filter"></label>
-                        <input type="text" id="node-filter" class="node-filter" data-rule="node-filter" placeholder="Filter nodes" autofocus>
-                    </section>
+                        <input type="text" id="node-filter" class="theme-style node-filter" data-rule="node-filter" placeholder="Filter nodes" autofocus>
+                        <div id="date-filter-wrapper" class="date-filter-wrapper" data-rule="date-filter-wrapper">
+                            <label id="date-filter-label" class="date-filter-label" for="date-filter">Valid for</label>
+                            <input type="date" id="date-filter" class="theme-style date-filter" data-rule="date-filter" onfocus="this.showPicker()">
+                        </div>
+                    </div>
 
                     <!-- Node & Rule listing -->
                     <label id="node-list-counter" class="node-list-counter" data-rule="node-list-counter">Nodes (0)</label>

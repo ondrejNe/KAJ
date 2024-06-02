@@ -1,3 +1,4 @@
+
 require('./polyfills');
 const { JSDOM } = require('jsdom');
 

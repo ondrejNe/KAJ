@@ -1,4 +1,7 @@
 
+/* Import the variables */
+@import url('additions/variables.css');
+
 .rule-viewport-left {
     grid-area: rule-viewport-left;
     display: flex;
@@ -35,7 +38,8 @@
         'file-load-button file-show-button'
         'file-save-button graph-show-button'
         'file-clear-button tree-show-button'
-        'node-filter node-filter';
+        'node-filter node-filter'
+        'date-filter-wrapper date-filter-wrapper';
     gap: var(--spacing-xs);
     padding: var(--spacing-xs);
 }
@@ -65,19 +69,7 @@
 }
 
 .styled-button {
-    padding: 8px 20px;
-    border: 1px solid var(--color-primary); /* Border color similar to the button border */
-    background-color: var(--color-background-alt); /* Button background color */
-    color: var(--color-secondary); /* Text color */
-    font-family: 'Garet Book', sans-serif;
-    font-size: 16px;
-    font-weight: bold;
-    text-transform: uppercase; /* Uppercase text */
-    letter-spacing: 2px;
-    text-align: center;
-    cursor: pointer;
-    outline: none;
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+
 }
 .styled-button:focus,
 .styled-button:hover {
@@ -87,30 +79,50 @@
 
 .node-filter {
     grid-area: node-filter;
-    padding: 8px 20px;
-    border: 1px solid var(--color-primary); /* Border color similar to the button border */
-    background: var(--color-background-alt); /* Input background color */
     color: var(--color-primary); /* Text color */
-    font-family: 'Garet Book', 'Arial', sans-serif;
-    font-size: 16px;
-    font-weight: bold;
-    text-transform: uppercase; /* Uppercase text */
-    letter-spacing: 2px;
-    outline: none;
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    text-align: left;
     display: inline-block; /* Ensure input behaves like a block-level element */
 }
 
 .node-filter::placeholder {
     color: var(--color-primary); /* Placeholder text color */
-    text-transform: uppercase; /* Uppercase placeholder text */
-    letter-spacing: 2px;
 }
 
 .node-filter:hover,
 .node-filter:focus {
     background-color: var(--color-primary); /* Hover background color */
     color: var(--color-background); /* Hover text color */
+}
+
+.date-filter-wrapper {
+    grid-area: date-filter-wrapper;
+    display: grid;
+    grid-template-areas:
+        'date-filter-label date-filter';
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs);
+}
+
+.date-filter-label {
+    grid-area: date-filter-label;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs);
+    color: var(--color-background-alt); /* Text color */
+    font-family: 'Garet Heavy', sans-serif;
+    font-style: normal;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase; /* Uppercase text */
+    letter-spacing: 0.1em;
+    text-align: left;
+    display: inline-block; /* Ensure input behaves like a block-level element */
+}
+
+.date-filter {
+    grid-area: date-filter;
+    color: var(--color-primary); /* Text color */
+    text-align: left;
+    display: inline-block; /* Ensure input behaves like a block-level element */
 }
 
 .node-list-viewport,

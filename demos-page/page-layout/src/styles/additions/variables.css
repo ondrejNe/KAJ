@@ -26,3 +26,20 @@
     --spacing-lg: 24px;
     --spacing-xl: 32px;
 }
+
+/* Fancy styling */
+.theme-style {
+    padding: 8px 20px;
+    border: 1px solid var(--color-primary); /* Border color similar to the button border */
+    background-color: var(--color-background-alt); /* Button background color */
+    color: var(--color-secondary); /* Text color */
+    font-family: 'Garet Book', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase; /* Uppercase text */
+    letter-spacing: 2px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
