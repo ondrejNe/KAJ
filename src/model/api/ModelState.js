@@ -166,6 +166,21 @@ export class ModelState {
     /**
      * State retrieval
      */
+    srGetSchedulingNodes() {
+        return this.srGetNodes()
+            .filter(node => node.isSchedulingNode === "Y");
+    }
+
+    /**
+     * State retrieval
+     */
+    srGetSchedulingNodesCount() {
+        return this.srGetSchedulingNodes().length;
+    }
+
+    /**
+     * State retrieval
+     */
     srGetRules() {
         return this.sr.calculationRules
             .filter(rule => this.srRulesFilters.includes(rule.calcRuleId));

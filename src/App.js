@@ -123,7 +123,8 @@ const App = {
         }
 
         // List enumeration (left side) UI updating
-        App.$.nodeListCounter.textContent = "Nodes (" + DataModel.srGetNodesCount() + ")";
+        App.$.nodeListCounter.textContent =
+            "Nodes (" + DataModel.srGetNodesCount() + ") - Scheduled (" + DataModel.srGetSchedulingNodesCount() + ")" ;
         App.$.nodeList.replaceChildren(...DataModel.srGetSortedNodes().map((node) =>
             createNodeListItem(node))
         );
