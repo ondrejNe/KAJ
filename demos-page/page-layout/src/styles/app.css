@@ -1,0 +1,59 @@
+/* Import the variables */
+@import url('additions/variables.css');
+/* Import the custom fonts */
+@import url('additions/font.css');
+
+/* Big sections styling */
+@import url('viewport.left.css');
+@import url('viewport.right.css');
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+header .header-title {
+    font-size: 40px;
+}
+
+header .header-subtitle {
+    color: var(--color-primary);
+}
+
+footer {
+    color: var(--color-secondary);
+    font-size: 20px;
+}
+
+header, footer {
+    padding: var(--spacing-md);
+    text-align: center;
+    font-family: 'Garet Heavy', Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    color: var(--color-text);
+    background: radial-gradient(circle at top right, var(--color-background), transparent),
+    radial-gradient(circle at center, var(--color-primary), transparent),
+    radial-gradient(circle at bottom left, #8e81a8, transparent),
+    radial-gradient(circle at top left, #2f2b4c, transparent),
+    linear-gradient(to bottom, var(--color-background-alt), var(--color-background-alt));
+    font-family: 'Garet Book', Arial, sans-serif;
+}
+
+.rule-app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.rule-viewport {
+    color: var(--color-background-alt);
+    display: grid;
+    grid-template-areas:
+        'rule-viewport-left rule-viewport-right';
+    grid-template-columns: 1fr 3fr;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    flex-grow: 1;
+}

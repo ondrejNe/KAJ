@@ -7,16 +7,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <link rel="icon" type="image/webp" href="../src/images/favicon.webp">
-        <link rel="stylesheet" href="../src/styles/global.css">
+        <link rel="stylesheet" href="../src/styles/app.css">
     </head>
     <body>
         <div class="rule-app">
+
             <header class="header">
                 <label class="header-title">Scheduling Rules</label>
                 <label class="header-subtitle">(v0.1.0)</label>
             </header>
 
             <div class="rule-viewport">
+                <!-- Scheduling rules visualization representation -->
                 <div class="rule-viewport-right">
                     <pre><code id="file-show" class="file-show language-json" data-rule="file-show"></code></pre>
                     <div id="graph-show" class="graph-show" data-rule="graph-show" style="display: none"></div>
@@ -24,10 +26,13 @@
                 </div>
 
                 <div class="rule-viewport-left">
+                    <!-- Control description -->
                     <section id="control-labels" class="control-labels">
                         <label id="file-control-label" class="file-control-label">File Control</label>
                         <label id="show-control-label" class="show-control-label">Show Control</label>
                     </section>
+
+                    <!-- Control handling -->
                     <section id="rule-list-buttons" class="rule-list-buttons">
                         <input type="file" accept=".json" id="file-load-button" class="file-load-button" data-rule="file-load-button" style="display: none">
                         <label for="file-load-button" class="styled-button"> Load JSON </label>
@@ -40,7 +45,12 @@
                         <input type="text" id="rule-filter" class="rule-filter" data-rule="rule-filter" placeholder="Filter nodes" autofocus>
                     </section>
 
-                    <label id="rule-list-counter" class="rule-list-counter" data-rule="rule-list-counter">Nodes (0) Rules (0)</label>
+                    <!-- Node & Rule listing -->
+                    <label id="node-list-counter" class="node-list-counter" data-rule="node-list-counter">Nodes (0)</label>
+                    <div id="node-list-viewport" class="node-list-viewport">
+                        <ul id="node-list" class="node-list" data-rule="node-list"></ul>
+                    </div>
+                    <label id="rule-list-counter" class="rule-list-counter" data-rule="rule-list-counter">Rules (0)</label>
                     <div id="rule-list-viewport" class="rule-list-viewport">
                         <ul id="rule-list" class="rule-list" data-rule="rule-list"></ul>
                     </div>
@@ -49,9 +59,9 @@
 
             <footer class="info"></footer>
 
+            <!-- Graph library -->
             <script src="https://d3js.org/d3.v6.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-json.min.js"></script>
+            <!-- App backend logic -->
             <script type="module" src="../src/App.js"></script>
         </div>
     </body>

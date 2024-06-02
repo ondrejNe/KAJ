@@ -1,0 +1,148 @@
+
+.rule-viewport-left {
+    grid-area: rule-viewport-left;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: #f0f0f0;
+    height: 85vh;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: var(--color-background);
+}
+
+.control-labels {
+    display: grid;
+    grid-template-areas:
+        'file-control-label show-control-label';
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs);
+    color: var(--color-background-alt); /* Text color */
+    font-family: 'Garet Heavy', sans-serif;
+    font-style: normal;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase; /* Uppercase text */
+    letter-spacing: 0.1em;
+    text-align: center;
+}
+
+.rule-list-buttons {
+    display: grid;
+    grid-template-areas:
+        'file-load-button file-show-button'
+        'file-save-button graph-show-button'
+        'file-clear-button tree-show-button'
+        'rule-filter rule-filter';
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs);
+}
+
+.file-load-button {
+    grid-area: file-load-button;
+}
+
+.file-save-button {
+    grid-area: file-save-button;
+}
+
+.file-clear-button {
+    grid-area: file-clear-button;
+}
+
+.file-show-button {
+    grid-area: file-show-button;
+}
+
+.graph-show-button {
+    grid-area: graph-show-button;
+}
+
+.tree-show-button {
+    grid-area: tree-show-button;
+}
+
+.styled-button {
+    padding: 8px 20px;
+    border: 1px solid var(--color-primary); /* Border color similar to the button border */
+    background-color: var(--color-background-alt); /* Button background color */
+    color: var(--color-secondary); /* Text color */
+    font-family: 'Garet Book', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase; /* Uppercase text */
+    letter-spacing: 2px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+.styled-button:focus,
+.styled-button:hover {
+    background-color: var(--color-primary); /* Hover background color */
+    color: var(--color-background); /* Hover text color */
+}
+
+.rule-filter {
+    grid-area: rule-filter;
+    padding: 8px 20px;
+    border: 1px solid var(--color-primary); /* Border color similar to the button border */
+    background: var(--color-background-alt); /* Input background color */
+    color: var(--color-primary); /* Text color */
+    font-family: 'Garet Book', 'Arial', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase; /* Uppercase text */
+    letter-spacing: 2px;
+    outline: none;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    display: inline-block; /* Ensure input behaves like a block-level element */
+}
+
+.rule-filter::placeholder {
+    color: var(--color-primary); /* Placeholder text color */
+    text-transform: uppercase; /* Uppercase placeholder text */
+    letter-spacing: 2px;
+}
+
+.rule-filter:hover,
+.rule-filter:focus {
+    background-color: var(--color-primary); /* Hover background color */
+    color: var(--color-background); /* Hover text color */
+}
+
+.node-list-viewport {
+    background-color: var(--color-node-background);
+    overflow-x: auto;
+    overflow-y: auto;
+    width: 25vw;
+    height: 40vh;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: var(--color-background);
+}
+
+.node-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    white-space: nowrap;
+    background-color: var(--color-node-list-background);
+}
+
+.node-list li {
+    margin-left: 10px;
+    white-space: nowrap;                /* Prevent text wrapping */
+    overflow: hidden;                   /* Hide overflow content */
+    text-overflow: ellipsis;            /* Add ellipsis to indicate overflow */
+    padding: 10px;                      /* Optional: Add padding for better spacing */
+    transition: background 0.3s ease;   /* Add transition for smooth background change */
+    font-size: 12px;
+}
+
+.node-list li:hover {
+    background: linear-gradient(to left, var(--color-highlight), rgba(210, 40, 70, 0.1)); /* Gradient from strong to light */
+}

@@ -1,0 +1,28 @@
+
+/* Lavish coloring */
+:root {
+    --color-primary: #be8c00;
+    --color-secondary: #ffffff;
+    --color-background: #10121a;
+    --color-background-alt: #28283b;
+    --color-text: #ffffff;
+    --color-border: #10121a;
+    --color-highlight: #d22846;
+    --color-json-key: #645f8c;
+    --color-json-string: #be8c00;
+    --color-json-number: #28aa82;
+    --color-json-boolean: #d22846;
+    --color-json-null: #d22846;
+    --color-json-punctuation: #28283b;
+    --color-node-background: #f5f5f5;
+    --color-node-list-background: #ffffff;
+}
+
+/* Spacious spacing */
+:root {
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+}

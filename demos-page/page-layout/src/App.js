@@ -22,9 +22,9 @@ const App = {
         graphShow: document.querySelector('[data-rule="graph-show"]'),
         treeShow: document.querySelector('[data-rule="tree-show"]'),
         
-        // Rule list
-        ruleListCounter: document.querySelector('[data-rule="rule-list-counter"]'),
-        ruleList: document.querySelector('[data-rule="rule-list"]'),
+        // Node list
+        nodeListCounter: document.querySelector('[data-rule="node-list-counter"]'),
+        nodeList: document.querySelector('[data-rule="node-list"]'),
     },
 
     // The initialization method for setting up event listeners and initial rendering.
@@ -93,10 +93,10 @@ const App = {
             d3TreeDraw(App.$.treeShow, DataModel.srGetTree());
         }
 
-        App.$.ruleListCounter.textContent = 
+        App.$.nodeListCounter.textContent = 
             "Nodes (" + DataModel.srGetNodesCount() + ") " +
             "Rules (" + DataModel.srGetRulesCount() + ")";
-        App.$.ruleList.replaceChildren(...DataModel.srGetSortedNodes().map((node) =>
+        App.$.nodeList.replaceChildren(...DataModel.srGetSortedNodes().map((node) =>
             App.createListItem(node))
         );
     },
