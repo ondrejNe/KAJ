@@ -1,3 +1,4 @@
+
 const { SchedulingRules, CalculationRule, CalculationNode } = require('./SchedulingRules');
 const { describe, test } = require("@jest/globals");
 const { expect} = require("expect");

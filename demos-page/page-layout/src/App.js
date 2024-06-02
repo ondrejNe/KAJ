@@ -1,37 +1,51 @@
 import {ModelController} from "./model/ModelController.js";
 import {d3GraphDraw} from "./api/d3Graph.js";
 import {d3TreeDraw} from "./api/d3Tree.js";
-import {syntaxHighlight} from "./util/json.js";
+import {jsonSyntaxHighlight} from "./util/json.js";
+import {createNodeListItem} from "./components/unorderedList.js";
 
+// Data model of the Scheduling rules
 const DataModel = new ModelController();
 
 const App = {
-    // A collection of DOM element references and utility methods for manipulating the UI.
+    // A collection of DOM element references for manipulating the UI.
     $: {
-        // Controls
-        fileLoadBtn: document.querySelector('[data-rule="file-load-button"]'),
-        fileSaveBtn: document.querySelector('[data-rule="file-save-button"]'),
-        fileClearBtn: document.querySelector('[data-rule="file-clear-button"]'),
-        fileShowBtn: document.querySelector('[data-rule="file-show-button"]'),
-        graphShowBtn: document.querySelector('[data-rule="graph-show-button"]'),
-        treeShowBtn: document.querySelector('[data-rule="tree-show-button"]'),
-        ruleFilter: document.querySelector('[data-rule="rule-filter"]'),
-        
-        // Presentation
+        // Presentation (right side)
         fileShow: document.querySelector('[data-rule="file-show"]'),
         graphShow: document.querySelector('[data-rule="graph-show"]'),
         treeShow: document.querySelector('[data-rule="tree-show"]'),
-        
-        // Node list
+
+        // Control (left side)
+        // file io
+        fileLoadBtn: document.querySelector('[data-rule="file-load-button"]'),
+        fileSaveBtn: document.querySelector('[data-rule="file-save-button"]'),
+        fileClearBtn: document.querySelector('[data-rule="file-clear-button"]'),
+        // show UI
+        fileShowBtn: document.querySelector('[data-rule="file-show-button"]'),
+        graphShowBtn: document.querySelector('[data-rule="graph-show-button"]'),
+        treeShowBtn: document.querySelector('[data-rule="tree-show-button"]'),
+        // state filter
+        dateFilter: document.querySelector('[data-rule="date-filter"]'),
+        nodeFilter: document.querySelector('[data-rule="node-filter"]'),
+
+        // Node list (left side)
         nodeListCounter: document.querySelector('[data-rule="node-list-counter"]'),
         nodeList: document.querySelector('[data-rule="node-list"]'),
+
+        // Rule list (left side)
+        ruleListCounter: document.querySelector('[data-rule="rule-list-counter"]'),
+        ruleList: document.querySelector('[data-rule="rule-list"]'),
     },
 
     // The initialization method for setting up event listeners and initial rendering.
     init() {
+        // Set the date filter to current date
+        App.$.dateFilter.valueAsDate = new Date();
+        
+        // Render on save to local storage
         DataModel.srStorage.addEventListener("save", App.render);
 
-        // Attach event listeners for file load and save
+        // Attach event listeners
         App.bindEventListeners();
 
         // Initial render
@@ -40,6 +54,7 @@ const App = {
 
     // Method to bind event listeners
     bindEventListeners() {
+        // Event listeners for the changes on the data model
         App.$.fileLoadBtn.addEventListener('change', (e) =>
             DataModel.srLoadJSONFile(e, App.render)
         );
@@ -49,14 +64,11 @@ const App = {
         App.$.fileClearBtn.addEventListener('click', (e) =>
             DataModel.srClear(App.render)
         );
-        App.$.ruleFilter.addEventListener('input', (e) => {
+        App.$.nodeFilter.addEventListener('input', (e) => {
             DataModel.srSetNodesFiltersFrom(e.target.value);
         });
-        App.$.ruleFilter.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                App.render();
-            }
-        });
+
+        // Event listeners for the changes on the control UI
         App.$.fileShowBtn.addEventListener('click', (e) => {
             App.$.fileShow.style.display = '';
             App.$.graphShow.style.display = 'none';
@@ -75,13 +87,19 @@ const App = {
             App.$.treeShow.style.display = '';
             App.render();
         });
+        App.$.nodeFilter.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                App.render();
+            }
+        });
     },
 
     // The main rendering method for updating the UI based on the current state
     render() {
+        // Presentation (right side) UI updating
         if (App.$.fileShow.style.display !== 'none') {
             App.$.fileShow.parentElement.parentElement.style.overflowY = "scroll";
-            App.$.fileShow.innerHTML = syntaxHighlight(DataModel.srGetJSON());
+            App.$.fileShow.innerHTML = jsonSyntaxHighlight(DataModel.srGetJSON());
         }
         if (App.$.graphShow.style.display !== 'none') {
             App.$.graphShow.parentElement.style.overflow = "unset";
@@ -93,19 +111,15 @@ const App = {
             d3TreeDraw(App.$.treeShow, DataModel.srGetTree());
         }
 
-        App.$.nodeListCounter.textContent = 
-            "Nodes (" + DataModel.srGetNodesCount() + ") " +
-            "Rules (" + DataModel.srGetRulesCount() + ")";
+        // List enumeration (left side) UI updating
+        App.$.nodeListCounter.textContent = "Nodes (" + DataModel.srGetNodesCount() + ")";
         App.$.nodeList.replaceChildren(...DataModel.srGetSortedNodes().map((node) =>
-            App.createListItem(node))
+            createNodeListItem(node))
         );
-    },
-
-    createListItem(node) {
-        const li = document.createElement("li");
-        li.textContent = node.calculationName;
-        return li;
+        App.$.ruleListCounter.textContent = "Rules (" + DataModel.srGetRulesCount() + ")";
+        // TODO: Rule list enumeration
     },
 };
 
+// Initialize the application
 App.init();

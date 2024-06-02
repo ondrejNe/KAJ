@@ -1,4 +1,7 @@
 
+/**
+ * Wrapper class for scheduling rules.
+ */
 export class SchedulingRules {
     constructor(rules, nodes) {
         this.calculationRules = rules;
@@ -21,6 +24,9 @@ export class SchedulingRules {
     }
 }
 
+/**
+ * Relationship between nodes.
+ */
 export class CalculationRule {
     constructor(
         calcRuleId,
@@ -76,6 +82,9 @@ export class CalculationRule {
     }
 }
 
+/**
+ * Foundational unit of the scheduling rules.
+ */
 export class CalculationNode {
     constructor(
         calculationName,

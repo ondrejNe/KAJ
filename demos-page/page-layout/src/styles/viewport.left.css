@@ -35,7 +35,7 @@
         'file-load-button file-show-button'
         'file-save-button graph-show-button'
         'file-clear-button tree-show-button'
-        'rule-filter rule-filter';
+        'node-filter node-filter';
     gap: var(--spacing-xs);
     padding: var(--spacing-xs);
 }
@@ -85,8 +85,8 @@
     color: var(--color-background); /* Hover text color */
 }
 
-.rule-filter {
-    grid-area: rule-filter;
+.node-filter {
+    grid-area: node-filter;
     padding: 8px 20px;
     border: 1px solid var(--color-primary); /* Border color similar to the button border */
     background: var(--color-background-alt); /* Input background color */
@@ -101,31 +101,33 @@
     display: inline-block; /* Ensure input behaves like a block-level element */
 }
 
-.rule-filter::placeholder {
+.node-filter::placeholder {
     color: var(--color-primary); /* Placeholder text color */
     text-transform: uppercase; /* Uppercase placeholder text */
     letter-spacing: 2px;
 }
 
-.rule-filter:hover,
-.rule-filter:focus {
+.node-filter:hover,
+.node-filter:focus {
     background-color: var(--color-primary); /* Hover background color */
     color: var(--color-background); /* Hover text color */
 }
 
-.node-list-viewport {
+.node-list-viewport,
+.rule-list-viewport {
     background-color: var(--color-node-background);
     overflow-x: auto;
     overflow-y: auto;
     width: 25vw;
-    height: 40vh;
+    height: 25vh;
     border-radius: 5px;
     border-style: solid;
     border-width: 3px;
     border-color: var(--color-background);
 }
 
-.node-list {
+.node-list,
+.rule-list {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -133,7 +135,8 @@
     background-color: var(--color-node-list-background);
 }
 
-.node-list li {
+.node-list li,
+.rule-list li {
     margin-left: 10px;
     white-space: nowrap;                /* Prevent text wrapping */
     overflow: hidden;                   /* Hide overflow content */
@@ -143,6 +146,7 @@
     font-size: 12px;
 }
 
-.node-list li:hover {
+.node-list li:hover,
+.rule-list li:hover {
     background: linear-gradient(to left, var(--color-highlight), rgba(210, 40, 70, 0.1)); /* Gradient from strong to light */
 }

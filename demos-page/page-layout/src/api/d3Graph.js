@@ -1,26 +1,14 @@
-import {cssElementFreeWidth, cssElementFreeHeight} from "../util/css.js";
+
+import {d3SvgFoundation} from "./d3Common.js";
 
 export const d3GraphDraw = (element, nodes, links) => {
-    // Remove any existing elements in the container
-    d3.select(element).selectAll("*").remove();
-
-    // Set the dimensions and margins of the graph
-    const margin = { top: 40, right: 40, bottom: 40, left: 40 },
-        width = cssElementFreeWidth(element.parentElement),
-        height = cssElementFreeHeight(element.parentElement);
-
-    console.log(width, height);
-    // Append an SVG element to the container
-    const svg = d3.select(element)
-        .append("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .call(d3.zoom().on("zoom", function (event) {
-            svg.attr("transform", event.transform); // Enable zooming and panning
-        }))
-        .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
+    
+    // Prepare the element container
+    const common = d3SvgFoundation(element);
+    const svg = common.svg;
+    const width = common.width;
+    const height = common.height;
+    
     // Define arrow markers for links
     svg.append("defs").append("marker")
         .attr("id", "arrowhead")
