@@ -124,6 +124,9 @@ export const d3TreeDraw = (element, data) => {
                 .attr('stroke', '#28283b')
                 .attr('stroke-width', 2)
                 .attr('pointer-events', 'all');
+
+            // Store the size for later use
+            d.bbox = bbox;
         });
 
         // Update the positions of the nodes
@@ -148,12 +151,16 @@ export const d3TreeDraw = (element, data) => {
                 const o = { x: source.x0, y: source.y0 };
                 return diagonal({ source: o, target: o });
             })
-            .attr('marker-start', 'url(#arrow)'); // Add the marker to the start of the link
+            .attr('marker-end', 'url(#arrow)'); // Add the marker to the start of the link
 
         // Update link positions
         link.merge(linkEnter).transition(transition)
-            .attr('d', diagonal)
-            .attr('marker-start', 'url(#arrow)'); // Add the marker to the start of the link
+            .attr('d', d => {
+                const source = { x: d.source.x, y: d.source.y + 30 };
+                const target = { x: d.target.x, y: d.target.y - 30 };
+                return diagonal({ source, target });
+            })
+            .attr('marker-end', 'url(#arrow)'); // Add the marker to the start of the link
 
         // Remove exiting links
         link.exit().transition(transition).remove()
