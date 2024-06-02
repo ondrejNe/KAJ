@@ -14,8 +14,7 @@ export class ModelController extends ModelState {
      * File show model state transformation.
      */
     srGetJSON() {
-        const sr = new SchedulingRules(this.srGetRules(), this.srGetNodes());
-        return JSON.stringify(sr, null, 4);
+        return JSON.stringify(this.srGetSchedulingRules(), null, 4);
     }
 
     /**

@@ -185,4 +185,11 @@ export class ModelState {
         return this.srGetRules()
             .sort((a, b) => a.calcRuleId.localeCompare(b.calcRuleId));
     }
+
+    /**
+     * State retrieval
+     */
+    srGetSchedulingRules() {
+        return new SchedulingRules(this.srGetRules(), this.srGetNodes());
+    }
 }
