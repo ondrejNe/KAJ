@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <title>Scheduling rules UI</title>
+
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Scheduling rules manager</title>
+
+        <link href="https://fonts.googleapis.com/css2?family=Garet+Book&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/webp" href="../src/images/favicon.webp">
         <link rel="stylesheet" href="../src/styles/global.css">
     </head>
     <body>
         <div class="rule-app">
-            <header class="header">Scheduling rules manager (v0.1.0)</header>
+            <header class="header">
+                <label class="header-title">Scheduling Rules</label>
+                <label class="header-subtitle">(v0.1.0)</label>
+            </header>
 
             <div class="rule-viewport">
                 <div class="rule-viewport-right">
@@ -18,16 +25,20 @@
                 </div>
 
                 <div class="rule-viewport-left">
-                    <h2>Control section</h2>
+                    <section id="control-labels" class="control-labels">
+                        <label id="file-control-label" class="file-control-label">File Control</label>
+                        <label id="show-control-label" class="show-control-label">Show Control</label>
+                    </section>
                     <section id="rule-list-buttons" class="rule-list-buttons">
-                        <input type="file" accept=".json" id="file-load-button" class="file-load-button" data-rule="file-load-button">
-                        <button id="file-save-button" class="file-save-button" data-rule="file-save-button"> Save JSON </button>
-                        <button id="file-clear-button" class="file-clear-button" data-rule="file-clear-button"> Clear JSON </button>
-                        <button id="file-show-button" class="file-show-button" data-rule="file-show-button"> Show JSON </button>
-                        <button id="graph-show-button" class="graph-show-button" data-rule="graph-show-button"> Show GRAPH </button>
-                        <button id="tree-show-button" class="tree-show-button" data-rule="tree-show-button"> Show TREE </button>
+                        <input type="file" accept=".json" id="file-load-button" class="file-load-button" data-rule="file-load-button" style="display: none">
+                        <label for="file-load-button" class="styled-button"> Load JSON </label>
+                        <button id="file-save-button" class="file-save-button styled-button" data-rule="file-save-button"> Save JSON </button>
+                        <button id="file-clear-button" class="file-clear-button styled-button" data-rule="file-clear-button"> Clear JSON </button>
+                        <button id="file-show-button" class="file-show-button styled-button" data-rule="file-show-button"> Show JSON </button>
+                        <button id="graph-show-button" class="graph-show-button styled-button" data-rule="graph-show-button"> Show GRAPH </button>
+                        <button id="tree-show-button" class="tree-show-button styled-button" data-rule="tree-show-button"> Show TREE </button>
                         <label for="rule-filter"></label>
-                        <input type="text" id="rule-filter" class="rule-filter" data-rule="rule-filter" placeholder="Filter rules" autofocus>
+                        <input type="text" id="rule-filter" class="rule-filter" data-rule="rule-filter" placeholder="Filter nodes" autofocus>
                     </section>
 
                     <label id="rule-list-counter" class="rule-list-counter" data-rule="rule-list-counter">Nodes (0) Rules (0)</label>
@@ -37,9 +48,7 @@
                 </div>
             </div>
 
-            <footer class="info">
-                Footer
-            </footer>
+            <footer class="info"></footer>
 
             <script src="https://d3js.org/d3.v6.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>

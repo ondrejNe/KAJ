@@ -1,6 +1,7 @@
 import {ModelController} from "./model/ModelController.js";
 import {d3GraphDraw} from "./api/d3Graph.js";
 import {d3TreeDraw} from "./api/d3Tree.js";
+import {syntaxHighlight} from "./util/json.js";
 
 const DataModel = new ModelController();
 
@@ -80,8 +81,7 @@ const App = {
     render() {
         if (App.$.fileShow.style.display !== 'none') {
             App.$.fileShow.parentElement.parentElement.style.overflowY = "scroll";
-            App.$.fileShow.textContent = DataModel.srGetJSON();
-            Prism.highlightElement(App.$.fileShow);
+            App.$.fileShow.innerHTML = syntaxHighlight(DataModel.srGetJSON());
         }
         if (App.$.graphShow.style.display !== 'none') {
             App.$.graphShow.parentElement.style.overflow = "unset";

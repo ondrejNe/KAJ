@@ -1,4 +1,4 @@
-import { cssElementWidth, cssElementHeight } from "../util/css.js";
+import {cssElementFreeWidth, cssElementFreeHeight} from "../util/css.js";
 
 export const d3GraphDraw = (element, nodes, links) => {
     // Remove any existing elements in the container
@@ -6,14 +6,15 @@ export const d3GraphDraw = (element, nodes, links) => {
 
     // Set the dimensions and margins of the graph
     const margin = { top: 40, right: 40, bottom: 40, left: 40 },
-        width = cssElementWidth(element.parentElement) - margin.left - margin.right,
-        height = cssElementHeight(element.parentElement) - margin.top - margin.bottom;
+        width = cssElementFreeWidth(element.parentElement),
+        height = cssElementFreeHeight(element.parentElement);
 
+    console.log(width, height);
     // Append an SVG element to the container
     const svg = d3.select(element)
         .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+        .attr("width", width)
+        .attr("height", height)
         .call(d3.zoom().on("zoom", function (event) {
             svg.attr("transform", event.transform); // Enable zooming and panning
         }))
@@ -32,7 +33,7 @@ export const d3GraphDraw = (element, nodes, links) => {
         .attr("xoverflow", "visible")
         .append("svg:path")
         .attr("d", "M 0,-5 L 10 ,0 L 0,5") // Define the arrow shape
-        .attr("fill", "#999")
+        .attr("fill", "#28283b")
         .style("stroke", "none");
 
     // Initialize the links

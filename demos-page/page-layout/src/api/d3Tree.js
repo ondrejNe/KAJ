@@ -1,4 +1,4 @@
-import { cssElementWidth, cssElementHeight } from "../util/css.js";
+import { cssElementFreeWidth, cssElementFreeHeight } from "../util/css.js";
 
 export const d3TreeDraw = (element, data) => {
     // Remove any existing elements in the container
@@ -6,8 +6,8 @@ export const d3TreeDraw = (element, data) => {
 
     // Set the dimensions and margins of the graph
     const margin = { top: 40, right: 40, bottom: 40, left: 40 },
-        width = cssElementWidth(element.parentElement) - margin.left - margin.right,
-        height = cssElementHeight(element.parentElement) - margin.top - margin.bottom;
+        width = cssElementFreeWidth(element.parentElement) - margin.left - margin.right,
+        height = cssElementFreeHeight(element.parentElement) - margin.top - margin.bottom;
 
     // Append an SVG element to the container
     const svg = d3.select(element)
@@ -20,10 +20,6 @@ export const d3TreeDraw = (element, data) => {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    // Append a group element to the SVG
-    const g = svg.append('g')
-        .attr('transform', `translate(${margin.left},${margin.top})`);
-
     // Create a root node from the data
     const root = d3.hierarchy(data);
     root.x0 = width / 2;
@@ -31,7 +27,7 @@ export const d3TreeDraw = (element, data) => {
     root.descendants().forEach((d, i) => {
         d.id = i;
         d._children = d.children; // Collapse children
-        if (d.depth && d.data.name.length !== 20) d.children = null; // Initial collapse
+        if (d.depth) d.children = null; // Initial collapse
     });
 
     // Create a tree layout
@@ -69,12 +65,12 @@ export const d3TreeDraw = (element, data) => {
             if (node.y > right.y) right = node;
         });
 
-        const height = right.y - left.y + margin.top + margin.bottom;
+        const newHeight = right.y - left.y + margin.top + margin.bottom;
 
         const transition = svg.transition()
             .duration(duration)
-            .attr('height', height)
-            .attr('viewBox', [-margin.left, left.y - margin.top, width, height])
+            .attr('height', newHeight)
+            .attr('viewBox', [-margin.left, left.y - margin.top, width + margin.right, newHeight + margin.bottom])
             .tween('resize', window.ResizeObserver ? null : () => () => svg.dispatch('toggle'));
 
         // Update the nodes
