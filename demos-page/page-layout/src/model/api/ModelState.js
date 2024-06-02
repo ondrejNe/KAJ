@@ -9,9 +9,8 @@ export class ModelState {
         this.srStorage = new Storage(SchedulingRules, "schedulingRules");
 
         // State variables
-        this.sr = this.srStorage.read() ?? new SchedulingRules([], [])
-        this.srRulesFilters = this.sr.calculationRules.map(rule => rule.calcRuleId);
-        this.srNodesFilters = this.sr.calculationNodes.map(node => node.calculationName);
+        this._srInit();
+        this._srUpdateWithSr( this.srStorage.read() ?? this.sr);
     }
 
     /**
@@ -53,7 +52,22 @@ export class ModelState {
      */
     srUpdateWithJSON(json) {
         // Total state update
-        this.sr = SchedulingRules.fromJSON(json);
+        const sr = SchedulingRules.fromJSON(json);
+        this._srUpdateWithSr(sr);
+    }
+
+    /**
+     * State shuffling
+     */
+    _srUpdateWithSr(sr) {
+        this._srInit();
+        
+        // Total state update
+        this.sr = sr;
+        
+        this.sr.calculationNodes.forEach(node => this.srNodeMapping.set(node.calculationName, node));
+        this.sr.calculationRules.forEach(rule => this.srRuleMapping.set(rule.calcRuleId, rule));
+        
         this.srRulesFilters = this.sr.calculationRules.map(rule => rule.calcRuleId);
         this.srNodesFilters = this.sr.calculationNodes.map(node => node.calculationName);
 
@@ -65,13 +79,21 @@ export class ModelState {
      */
     srClear(callback) {
         // Total state clear
-        this.sr = new SchedulingRules([], []);
-        this.srNodesFilters = [];
-        this.srRulesFilters = [];
-
+        this._srInit();
+        
         this.srStorage.clear();
 
         if (callback) callback();
+    }
+
+    _srInit() {
+        // Total state clear
+        this.sr = new SchedulingRules([], []);
+        this.srNodeMapping = new Map();
+        this.srRuleMapping = new Map();
+        this.srNodesFilters = [];
+        this.srRulesFilters = [];
+        // TODO: Add the date filter
     }
 
     /**

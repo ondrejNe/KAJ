@@ -10,11 +10,17 @@ export class ModelController extends ModelState {
         super();
     }
 
+    /**
+     * File show model state transformation.
+     */
     srGetJSON() {
         const sr = new SchedulingRules(this.srGetRules(), this.srGetNodes());
         return JSON.stringify(sr, null, 4);
     }
-    
+
+    /**
+     * Graph show model state transformation.
+     */
     srGetGraph() {
         const nodeNames = new Set();
         const ruleIds = new Set();
@@ -53,15 +59,22 @@ export class ModelController extends ModelState {
 
         return {nodes, links};
     }
-    
+
+    /**
+     * Tree show model state transformation.
+     */
     srGetTree() {
         let graph = this.srGetGraph();
 
         // Create node objects
         const nodes = {};
-        const nodeNames = graph.nodes.map(node => node.name)
-        nodeNames.forEach(name => {
-            nodes[name] = { name: name, children: [] };
+        const nodeNames = [];
+        graph.nodes.forEach(node => {
+            nodeNames.push(node.name);
+            nodes[node.name] = {
+                name: node.name,
+                children: [],
+            };
         });
 
         // Populate children
