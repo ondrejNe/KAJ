@@ -1,14 +1,13 @@
-
-import {d3SvgFoundation} from "./d3Common.js";
+import { d3SvgFoundation } from "./d3Common.js";
 
 export const d3GraphDraw = (element, nodes, links) => {
-    
+
     // Prepare the element container
     const common = d3SvgFoundation(element);
     const svg = common.svg;
     const width = common.width;
     const height = common.height;
-    
+
     // Define arrow markers for links
     svg.append("defs").append("marker")
         .attr("id", "arrowhead")
@@ -23,6 +22,15 @@ export const d3GraphDraw = (element, nodes, links) => {
         .attr("d", "M 0,-5 L 10 ,0 L 0,5") // Define the arrow shape
         .attr("fill", "#28283b")
         .style("stroke", "none");
+
+    // Calculate the number of incoming links for each node
+    const nodeLinkCounts = new Map();
+    links.forEach(link => {
+        if (!nodeLinkCounts.get(link.target)) {
+            nodeLinkCounts.set(link.target, 0);
+        }
+        nodeLinkCounts.set(link.target, nodeLinkCounts.get(link.target) + 1);
+    });
 
     // Initialize the links
     const link = svg
@@ -42,7 +50,7 @@ export const d3GraphDraw = (element, nodes, links) => {
         .data(nodes)
         .enter()
         .append("circle")
-        .attr("r", 10)
+        .attr("r", d => 10 + (nodeLinkCounts.get(d.id) || 0) * 4) // Increase radius based on incoming links
         .style("fill", "#28aa82")
         .call(d3.drag()
             .on("start", dragstarted)
