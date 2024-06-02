@@ -211,7 +211,7 @@ export class ModelState {
      */
     srGetSortedRules() {
         return this.srGetRules()
-            .sort((a, b) => a.calcRuleId.localeCompare(b.calcRuleId));
+            .sort((a, b) => a.calcRuleId - b.calcRuleId);
     }
 
     /**

@@ -10,6 +10,6 @@ export const createNodeListItem = (node) => {
 
 export const createRuleListItem = (rule) => {
     const li = document.createElement("li");
-    li.textContent = rule.calcRuleId + " - " + rule.calcMode + " " + rule.unaryModifierMode;
+    li.textContent = rule.calcRuleId + " - " + rule.calcMode + " - " + rule.unaryModifierMode + " - " + rule.unaryModifierValue;
     return li;
 };

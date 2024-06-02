@@ -2,7 +2,7 @@ import {ModelController} from "./model/ModelController.js";
 import {d3GraphDraw} from "./api/d3Graph.js";
 import {d3TreeDraw} from "./api/d3Tree.js";
 import {jsonSyntaxHighlight} from "./util/json.js";
-import {createNodeListItem} from "./components/unorderedList.js";
+import {createNodeListItem, createRuleListItem} from "./components/unorderedList.js";
 
 // Data model of the Scheduling rules
 const DataModel = new ModelController();
@@ -134,7 +134,9 @@ const App = {
             createNodeListItem(node))
         );
         App.$.ruleListCounter.textContent = "Rules (" + DataModel.srGetRulesCount() + ")";
-        // TODO: Rule list enumeration
+        App.$.ruleList.replaceChildren(...DataModel.srGetSortedRules().map((rule) =>
+            createRuleListItem(rule))
+        );
     },
 };
 
