@@ -1,15 +1,29 @@
-
-import {d3SvgFoundation} from "./d3Common.js";
+import { d3SvgFoundation } from "./d3Common.js";
 
 export const d3TreeDraw = (element, data) => {
-
     // Prepare the element container
     const common = d3SvgFoundation(element);
     const svg = common.svg;
     const width = common.width;
     const height = common.height;
     const margin = common.margin;
-    
+
+    // Remove default double-click zoom behavior
+    svg.call(d3.zoom().on("zoom", null));
+
+    // Define arrow markers
+    svg.append('defs').append('marker')
+        .attr('id', 'arrow')
+        .attr('viewBox', '0 -5 10 10')
+        .attr('refX', 5)
+        .attr('refY', 0)
+        .attr('markerWidth', 4)
+        .attr('markerHeight', 4)
+        .attr('orient', 'auto')
+        .append('path')
+        .attr('d', 'M0,-5L10,0L0,5')
+        .attr('fill', '#28283b');
+
     // Create a root node from the data
     const root = d3.hierarchy(data);
     root.x0 = width / 2;
@@ -69,36 +83,47 @@ export const d3TreeDraw = (element, data) => {
 
         // Enter new nodes
         const nodeEnter = node.enter().append('g')
-            .attr('transform', d => `translate(${source.x0},${source.y0})`)
+            .attr('transform', _ => `translate(${source.x0},${source.y0})`)
             .attr('fill-opacity', 0)
             .attr('stroke-opacity', 0)
-            .on('click', (event, d) => {
-                d.children = d.children ? null : d._children; // Toggle children on click
+            .on('dblclick', (event, d) => {
+                d.children = d.children ? null : d._children; // Toggle children on double-click
                 update(event, d); // Update tree
             });
-
-        // Create text elements first
-        nodeEnter.append('text')
-            .attr('y', 5)
-            .attr('x', 0)
-            .attr('text-anchor', 'middle')
-            .attr('fill', '#28283b')
-            .attr('style', 'font-size: 12px; font-family: sans-serif;')
-            .text(d => d.data.name);
 
         // Calculate text dimensions and create rectangles based on them
         nodeEnter.each(function(d) {
             const node = d3.select(this);
-            const text = node.select('text');
+            const text = node.append('text')
+                .attr('y', 0)
+                .attr('x', 0)
+                .attr('text-anchor', 'middle')
+                .attr('fill', '#28283b')
+                .attr('style', 'font-size: 12px; font-family: sans-serif; pointer-events: none;')
+                .each(function(d) {
+                    const lines = d.data.data !== null
+                        ? [d.data.name, d.data.data.timeSeriesId]
+                        : [d.data.name];
+
+                    lines.forEach((line, i) => {
+                        d3.select(this).append('tspan')
+                            .attr('x', 0)
+                            .attr('dy', i === 0 ? '0em' : '1.2em')
+                            .text(line);
+                    });
+                });
+
             const bbox = text.node().getBBox();
+            const fillColor = d.data.data && d.data.data.timeSeriesId ? '#28aa82' : '#ffffff';
             node.insert('rect', 'text')
                 .attr('x', bbox.x - 10)
                 .attr('y', bbox.y - 5)
                 .attr('width', bbox.width + 20)
                 .attr('height', bbox.height + 10)
-                .attr('fill', '#ffffff')
+                .attr('fill', fillColor)
                 .attr('stroke', '#28283b')
-                .attr('stroke-width', 2);
+                .attr('stroke-width', 2)
+                .attr('pointer-events', 'all');
         });
 
         // Update the positions of the nodes
@@ -109,7 +134,7 @@ export const d3TreeDraw = (element, data) => {
 
         // Remove exiting nodes
         const nodeExit = node.exit().transition(transition).remove()
-            .attr('transform', d => `translate(${source.x},${source.y})`)
+            .attr('transform', _ => `translate(${source.x},${source.y})`)
             .attr('fill-opacity', 0)
             .attr('stroke-opacity', 0);
 
@@ -119,18 +144,20 @@ export const d3TreeDraw = (element, data) => {
 
         // Enter new links
         const linkEnter = link.enter().append('path')
-            .attr('d', d => {
+            .attr('d', _ => {
                 const o = { x: source.x0, y: source.y0 };
                 return diagonal({ source: o, target: o });
-            });
+            })
+            .attr('marker-start', 'url(#arrow)'); // Add the marker to the start of the link
 
         // Update link positions
         link.merge(linkEnter).transition(transition)
-            .attr('d', diagonal);
+            .attr('d', diagonal)
+            .attr('marker-start', 'url(#arrow)'); // Add the marker to the start of the link
 
         // Remove exiting links
         link.exit().transition(transition).remove()
-            .attr('d', d => {
+            .attr('d', _ => {
                 const o = { x: source.x, y: source.y };
                 return diagonal({ source: o, target: o });
             });

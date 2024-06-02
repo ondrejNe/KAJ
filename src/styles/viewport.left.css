@@ -162,3 +162,9 @@
 .rule-list li:hover {
     background: linear-gradient(to left, var(--color-highlight), rgba(210, 40, 70, 0.1)); /* Gradient from strong to light */
 }
+
+/* Specific gradient for elements with the scheduling-node class */
+.node-list li.scheduling-node:hover,
+.rule-list li.scheduling-node:hover {
+    background: linear-gradient(to left, var(--color-json-number), rgba(40, 210, 145, 0.1)); /* Specific gradient */
+}

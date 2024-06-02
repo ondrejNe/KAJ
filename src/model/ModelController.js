@@ -1,5 +1,4 @@
 
-import {SchedulingRules} from "./SchedulingRules.js";
 import {ModelState} from "./api/ModelState.js";
 
 /** 
@@ -72,6 +71,7 @@ export class ModelController extends ModelState {
             nodeNames.push(node.name);
             nodes[node.name] = {
                 name: node.name,
+                data: this.srNodeMapping.get(node.name),
                 children: [],
             };
         });
@@ -94,6 +94,7 @@ export class ModelController extends ModelState {
         } else {
             return {
                 name: "Root",
+                data: null,
                 children: rootNodes.map(name => nodes[name])
             };
         }
