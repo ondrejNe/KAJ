@@ -78,6 +78,11 @@ const App = {
             }
             App.$.dateFilterMouseDown = !App.$.dateFilterMouseDown;
         });
+        App.$.dateFilter.addEventListener('change', (e) => {
+            const selectedDate = App.$.dateFilter.value;
+            DataModel.srSetDateFilter(selectedDate);
+            App.render();
+        });
         
         // Event listeners for the changes on the control UI
         App.$.fileShowBtn.addEventListener('click', (e) => {

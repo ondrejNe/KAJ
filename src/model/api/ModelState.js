@@ -93,6 +93,7 @@ export class ModelState {
         this.srRuleMapping = new Map();
         this.srNodesFilters = [];
         this.srRulesFilters = [];
+        this.srDateFilter = new Date();
         // TODO: Add the date filter
     }
 
@@ -130,6 +131,14 @@ export class ModelState {
         this.srRulesFilters = calcRuleIds;
     }
 
+    /**
+     * State filter mask shuffling
+     */
+    srSetDateFilter(date) {
+        console.log(date);
+        this.srDateFilter = date;
+    }
+
     // TODO: Quite a lot of unnecessary filtering, perhaps some cashing and 
     //  hashing for model state change signaling would be nice on large instances
     
@@ -145,7 +154,9 @@ export class ModelState {
      */
     srGetNodes() {
         return this.sr.calculationNodes
-            .filter(node => this.srNodesFilters.includes(node.calculationName));
+            .filter(node => this.srNodesFilters.includes(node.calculationName))
+            .filter(node => node.nodeValidStart === null || Date.parse(node.nodeValidStart) <= Date.parse(this.srDateFilter))
+            .filter(node => node.nodeValidEnd === null || Date.parse(node.nodeValidEnd) > Date.parse(this.srDateFilter));
     }
 
     /**
@@ -183,7 +194,9 @@ export class ModelState {
      */
     srGetRules() {
         return this.sr.calculationRules
-            .filter(rule => this.srRulesFilters.includes(rule.calcRuleId));
+            .filter(rule => this.srRulesFilters.includes(rule.calcRuleId))
+            .filter(rule => rule.calcRuleValidStart === null || Date.parse(rule.calcRuleValidStart) <= Date.parse(this.srDateFilter))
+            .filter(rule => rule.calcRuleValidEnd === null || Date.parse(rule.calcRuleValidEnd) > Date.parse(this.srDateFilter));
     }
 
     /**
