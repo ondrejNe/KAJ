@@ -60,6 +60,19 @@ relationships.
 
 As of 2.6. there is still a lot of work to be done. The project is still in the development phase.
 
+### Tree (The Good)
+- Can be dragged around and zoomed in/out
+- Scheduling nodes are highlighted
+- Double-click on the node expands the children
+
+### Graph (The Bad)
+- Can be dragged around and zoomed in/out
+- The more edges target the node, the bigger the radius
+
+### JSON (The Ugly)
+- The Ugly
+- Yeah, just syntax highlighting (80/20 - 80% of the time spent on the highlights :D)
+
 ---
 
 ## Structure
@@ -104,6 +117,7 @@ The most important files to understand the project are:
 - Addition of the edges and their attributes to the graph visualization (currently only relationship is shown)
 - Improvements of traversing, filtering and graph layering
 - Connection directly to the API endpoint that would supplement the JSON inputs
+  - Kotlin backend with the Spring Boot framework and Azure SQL database
 - Improvements in the filtering options for inclusion of multiple specific nodes
 - More in-depth statistics and analysis of the graph structure and node/edge attributes
 - Ability to modify and export changes into the graph structure
