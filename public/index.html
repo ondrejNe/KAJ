@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Scheduling rules UI</title>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="icon" type="image/webp" href="../src/images/favicon.webp">
+        <link rel="stylesheet" href="../src/styles/app.css">
+    </head>
+    <body>
+        <div class="rule-app">
+
+            <header class="header">
+                <label class="header-title">Scheduling Rules</label>
+                <label class="header-subtitle">(v0.1.0)</label>
+            </header>
+
+            <div class="rule-viewport">
+                <!-- Scheduling rules visualization representation -->
+                <div class="rule-viewport-right">
+                    <pre><code id="file-show" class="file-show language-json" data-rule="file-show"></code></pre>
+                    <div id="graph-show" class="graph-show" data-rule="graph-show" style="display: none"></div>
+                    <div id="tree-show" class="tree-show" data-rule="tree-show" style="display: none"></div>
+                </div>
+
+                <div class="rule-viewport-left">
+                    <!-- Control description -->
+                    <div id="control-labels" class="control-labels">
+                        <label id="file-control-label" class="file-control-label">File Control</label>
+                        <label id="show-control-label" class="show-control-label">Show Control</label>
+                    </div>
+
+                    <!-- Control handling -->
+                    <div id="rule-list-buttons" class="rule-list-buttons">
+                        <!-- IO state control -->
+                        <input type="file" accept=".json" id="file-load-button" class="file-load-button" data-rule="file-load-button" style="display: none">
+                        <label for="file-load-button" class="file-load-button theme-style styled-button"> Load JSON </label>
+                        <button id="file-save-button" class="file-save-button theme-style styled-button" data-rule="file-save-button"> Save JSON </button>
+                        <button id="file-clear-button" class="file-clear-button theme-style styled-button" data-rule="file-clear-button"> Clear JSON </button>
+                        <!-- Visualization UI control -->
+                        <button id="file-show-button" class="file-show-button theme-style styled-button" data-rule="file-show-button"> Show JSON </button>
+                        <button id="graph-show-button" class="graph-show-button theme-style styled-button" data-rule="graph-show-button"> Show GRAPH </button>
+                        <button id="tree-show-button" class="tree-show-button theme-style styled-button" data-rule="tree-show-button"> Show TREE </button>
+                        <!-- Model state filter control -->
+                        <label for="node-filter"></label>
+                        <input type="text" id="node-filter" class="theme-style node-filter" data-rule="node-filter" placeholder="Filter nodes" autofocus>
+                        <div id="date-filter-wrapper" class="date-filter-wrapper" data-rule="date-filter-wrapper">
+                            <label id="date-filter-label" class="date-filter-label" for="date-filter">Valid for</label>
+                            <input type="date" id="date-filter" class="theme-style date-filter" data-rule="date-filter" onfocus="this.showPicker()">
+                        </div>
+                    </div>
+
+                    <!-- Node & Rule listing -->
+                    <label id="node-list-counter" class="node-list-counter" data-rule="node-list-counter">Nodes (0)</label>
+                    <div id="node-list-viewport" class="node-list-viewport">
+                        <ul id="node-list" class="node-list" data-rule="node-list"></ul>
+                    </div>
+
+                    <label id="rule-list-counter" class="rule-list-counter" data-rule="rule-list-counter">Rules (0)</label>
+                    <div id="rule-list-viewport" class="rule-list-viewport">
+                        <ul id="rule-list" class="rule-list" data-rule="rule-list"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="info"></footer>
+
+            <!-- Graph library -->
+            <script src="https://d3js.org/d3.v6.min.js"></script>
+            <!-- App backend logic -->
+            <script type="module" src="../src/App.js"></script>
+        </div>
+    </body>
+</html>
